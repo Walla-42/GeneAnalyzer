@@ -22,8 +22,8 @@ class DNA:
         return round(gc_percent, 2)
     
     def transcribe(self):
-        if set(self.sequence).issubset(set('ATCG'))is False:
-            print('Warning: Some bases not recognized and have not been transcibed')
+        if set('ATCG').issubset(set(self.sequence)) is False:
+            print('Warning: Some bases not recognized and have not been transcribed')
         return self.sequence.transcribe()
     
     def reverse_complement(self):
@@ -78,7 +78,7 @@ class Protein:
         return Counter(self.sequence).most_common(1)[0][0]
 
 if __name__ == "__main__":
-    input_break = '*******************************************************************************'
+    input_break = '*' * 80
     while True:
         type_input = input('What sequence type will you be analyzing (DNA, RNA, Protein)? ').strip().lower()
         

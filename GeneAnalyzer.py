@@ -1,7 +1,12 @@
 from Bio import SeqIO
 from Bio.Seq import Seq
 from collections import Counter
+import os
 
+def data_save(outputfile, data):
+    with open(outputfile,'a') as outputfile:
+        outputfile.write(data + '\n')
+    
 class DNA:
     def __init__(self, fasta_file=None, seq=None):
         self.sequence = self.parse_sequence(fasta_file, seq)
@@ -123,12 +128,19 @@ if __name__ == "__main__":
         
         while True:
             file_path = input('Enter file path. Else, type "None": ').strip().lower()
+            outputfile = input('Enter results file path: ')
+            
+
+            if outputfile.strip().replace(" ", "") == "":
+                outputfile = os.path.join(os.getcwd(), "outputFile")
             if file_path == 'none':
                 file_path = None
+                sequence_name = input('Enter name for your sequence')
                 break
             else:
                 continue
-                
+
+            
 
         seq = None
         if file_path is None:
@@ -144,12 +156,20 @@ if __name__ == "__main__":
                 print(input_break)
                 if dna_menu_input.strip() == '1':
                     print(f"GC Content: {dna.GC_count()}%")
+                    data = f'{sequence_name}\t{dna.GC_count()}%\n'
+                    data_save(outputfile, data)
                 elif dna_menu_input.strip() == '2':
                     print(f"Transcribed RNA: {dna.transcribe()}")
+                    data = f'{sequence_name}\t{dna.transcribe()}\n'
+                    data_save(outputfile, data)
                 elif dna_menu_input.strip() == '3':
                     print(f"Reverse Complement Strand: {dna.reverse_complement()}")
+                    data = f'{sequence_name}\t{dna.reverse_complement()}%\n'
+                    data_save(outputfile, data)
                 elif dna_menu_input.strip() == '4':
                     print(f"Base Counts of DNA Sequence: {dna.base_count()}")
+                    data = f'{sequence_name}\t{dna.base_count()}\n'
+                    data_save(outputfile, data)
                 else:
                     print('INVALID INPUT TYPE. VALID ENTRIES INCLUDE: 1, 2, 3, OR 4')
                     print(input_break)
@@ -160,18 +180,23 @@ if __name__ == "__main__":
 
         elif type_input == 'rna':
             rna = RNA(fasta_file=file_path, seq=seq)
-            
             while True:
                 print(input_break)
                 print('RNA Menu:\n1. GC Content\n2. Translate RNA Sequence\n3. Base Count Analysis')
                 rna_menu_input = input('What type of analysis would you like to perform (select 1-4): ')
                 print(input_break)
                 if rna_menu_input.strip() == '1':
-                     print(f"GC Content: {rna.GC_count()}%")
+                    print(f"GC Content: {rna.GC_count()}%")
+                    data = f'{sequence_name}\t{rna.GC_count()}\n'
+                    data_save(outputfile, data)
                 elif rna_menu_input.strip() == '2':
                     print(f"Translated Protein: {rna.translate()}")
+                    data = f'{sequence_name}\t{rna.translate()}\n'
+                    data_save(outputfile, data)
                 elif rna_menu_input.strip() == '3':
                     print(f"Base Counts of RNA Sequence: {rna.base_count()}")
+                    data = f'{sequence_name}\t{rna.base_count()}\n'
+                    data_save(outputfile, data)
                 else:
                     print('INVALID INPUT TYPE. VALID ENTRIES INCLUDE: 1, 2, or 3')
                     print(input_break)

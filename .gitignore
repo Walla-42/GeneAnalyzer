@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 test.py
+/In_progress
+/In_progress/example.fasta
 
 # C extensions
 *.so
